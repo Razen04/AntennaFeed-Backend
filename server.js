@@ -5,8 +5,19 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+const allowedOrigins = [
+    'http://localhost:5173', // Local development
+    'https://antenna-feed.vercel.app' // Deployed frontend
+];
+
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST'],
 }));
 
