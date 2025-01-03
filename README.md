@@ -1,6 +1,6 @@
 # AntennaFeed-Backend
 
-AntennaFeed-Backend is a Node.js backend server for fetching and processing articles and RSS feeds. It uses various libraries such as Express, Axios, Puppeteer, and Readability to fetch, parse, and process web content. The server provides endpoints for:
+AntennaFeed-Backend is a Node.js backend server for fetching and processing articles and RSS feeds. It uses various libraries such as Express, Axios, Puppeteer, and Readability to fetch, parse, and process web content. This is made to serve the backend for my frontend project which you can find [here](https://github.com/Razen04/AntennaFeed). The server provides endpoints for:
 
 - Fetching and parsing articles from URLs using Readability and Puppeteer as a fallback.
 - Fetching RSS feeds and filtering articles based on publication date.
@@ -13,7 +13,6 @@ AntennaFeed-Backend is a Node.js backend server for fetching and processing arti
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Rate Limiting](#rate-limiting)
-- [Testing](#testing)
 - [Project Structure](#project-structure)
 - [License](#license)
 
@@ -21,7 +20,7 @@ AntennaFeed-Backend is a Node.js backend server for fetching and processing arti
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/antennafeed-backend.git
+    git clone https://github.com/razen04/antennafeed-backend.git
     cd antennafeed-backend
     ```
 
@@ -30,16 +29,11 @@ AntennaFeed-Backend is a Node.js backend server for fetching and processing arti
     npm install
     ```
 
-3. Create a `.env` file for environment variables (if needed):
-    ```sh
-    touch .env
-    ```
-
 ## Usage
 
 1. Start the server:
     ```sh
-    npm start
+    npm run start
     ```
 
 2. The server will run on `http://localhost:3000`.
@@ -127,7 +121,7 @@ AntennaFeed-Backend is a Node.js backend server for fetching and processing arti
 
 ## Rate Limiting
 
-The server uses rate limiting to prevent abuse. Each user can make up to 5 requests per minute. If the limit is exceeded, the server will respond with a `429 Too Many Requests` status and the following message:
+The server uses rate limiting to prevent abuse. Each user can make up to 10 requests per minute for both feeds and articles to prevent exploitation. If the limit is exceeded, the server will respond with a `429 Too Many Requests` status and the following message:
 
 ```json
 {
@@ -163,11 +157,6 @@ The server uses rate limiting to prevent abuse. Each user can make up to 5 reque
 │   │   └── opmlService.js
 │   ├── utils
 │   │   └── helpers.js
-└── tests
-    ├── article.test.js
-    ├── feed.test.js
-    ├── opml.test.js
-    └── rateLimiter.test.js
 ```
 ### License
 

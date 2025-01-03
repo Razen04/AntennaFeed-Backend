@@ -4,7 +4,7 @@ const { JSDOM } = require('jsdom');
 const puppeteer = require('puppeteer-extra');
 const stealth = require('puppeteer-extra-plugin-stealth')();
 const cheerio = require('cheerio');
-const { extractImageSrc } = require('../utils/helpers');
+const { fetchImageFromOriginalArticle } = require('../utils/helpers');
 
 puppeteer.use(stealth);
 
@@ -35,7 +35,7 @@ const fetchArticleUsingPuppeteer = async (url) => {
     });
 
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+    await page.goto(url, { waitUntil: 'load', timeout: 90000 });
     await page.waitForSelector('body');
 
     const content = await page.evaluate(() => {
@@ -54,10 +54,10 @@ exports.fetchArticle = async (url) => {
     const reader = new Readability(dom.window.document);
     const parsedArticle = reader.parse();
 
+    console.log("parsedArticle content: ", parsedArticle);
     const hasMediaTags = /<img|<figure|<source/.test(parsedArticle.content);
-    const imageUrl = await extractImageSrc(url)
-    console.log("Fetched Image url: ", imageUrl)
-    const image = !hasMediaTags ? extractImageSrc(url) : null;
+    console.log("Has Media tags: ", hasMediaTags);
+    const image = !hasMediaTags ? await fetchImageFromOriginalArticle(url) : null;
 
     const modifiedHTML = parsedArticle.content.replace(/<a(?![^>]*target="_blank")/g, '<a target="_blank" rel="noopener noreferrer" ');
 

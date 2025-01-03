@@ -35,7 +35,6 @@ exports.fetchFeed = async (feedLink) => {
                 author: item.author || item.creator || item.byline,
                 pubDate: item.pubDate,
                 image: image,
-                content: item.contentSnippet,
                 isRead: false,
                 isStarred: false
             };
