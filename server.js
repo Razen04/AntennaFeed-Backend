@@ -1,19 +1,30 @@
 const express = require('express');
+require('dotenv').config();
 const cors = require('cors');
 const rateLimiter = require('./src/middlewares/rateLimiter')
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+
+
+// Cors Policy
+const allowedOrigins = ['http://localhost:3000', 'process.env.RENDER_BACKEND_URL'];
 app.use(cors({
-    origin: '*', // This allows all origins
-    methods: ['GET', 'POST'],
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
 }));
 
 // Import routes
 const articleRoutes = require('./src/routes/articleRoutes');
 const feedRoutes = require('./src/routes/feedRoutes');
 const opmlRoutes = require('./src/routes/opmlRoutes');
+const { Callback } = require('puppeteer');
 
 // Apply rate limiter globally
 app.use(rateLimiter)
@@ -24,7 +35,7 @@ app.use('/feeds', feedRoutes);
 app.use('/opml', opmlRoutes);
 
 // For cron-job
-app.get('/', (req, res) => {
+app.get('/status', (req, res) => {
     res.send("Server is up and running.");
 })
 
