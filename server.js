@@ -9,7 +9,25 @@ app.use(express.json());
 
 
 // Cors Policy
-app.use(cors({ origin: true, methods: ['GET', 'POST'], credentials: true }));
+const cors = require('cors');
+
+// Allow specific origin (your Vercel frontend)
+const allowedOrigins = ['https://antenna-feed.vercel.app/', 'http://localhost:5174'];
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 
 // Import routes
 const articleRoutes = require('./src/routes/articleRoutes');
@@ -28,7 +46,12 @@ app.use('/opml', opmlRoutes);
 // For cron-job
 app.get('/status', (req, res) => {
     res.send("Server is up and running.");
-})
+});
+
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`, req.body);
+    next();
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
