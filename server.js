@@ -9,7 +9,7 @@ app.use(express.json());
 
 
 // Cors Policy
-app.use(cors());
+app.use(cors({ origin: true, methods: ['GET', 'POST'], credentials: true }));
 
 // Import routes
 const articleRoutes = require('./src/routes/articleRoutes');

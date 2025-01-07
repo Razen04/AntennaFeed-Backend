@@ -54,9 +54,8 @@ exports.fetchArticle = async (url) => {
     const reader = new Readability(dom.window.document);
     const parsedArticle = reader.parse();
 
-    console.log("parsedArticle content: ", parsedArticle);
+    console.log("Article is parsed.");
     const hasMediaTags = /<img|<figure|<source/.test(parsedArticle.content);
-    console.log("Has Media tags: ", hasMediaTags);
     const image = !hasMediaTags ? await fetchImageFromOriginalArticle(url) : null;
 
     const modifiedHTML = parsedArticle.content.replace(/<a(?![^>]*target="_blank")/g, '<a target="_blank" rel="noopener noreferrer" ');
