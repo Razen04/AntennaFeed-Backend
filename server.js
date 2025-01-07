@@ -9,16 +9,7 @@ app.use(express.json());
 
 
 // Cors Policy
-const allowedOrigins = ['http://localhost:3000', 'process.env.RENDER_BACKEND_URL'];
-app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'))
-        }
-    }
-}));
+app.use(cors());
 
 // Import routes
 const articleRoutes = require('./src/routes/articleRoutes');
