@@ -9,23 +9,7 @@ app.use(express.json());
 
 
 // Cors Policy
-
-// Allow specific origin (your Vercel frontend)
-const allowedOrigins = ['https://antenna-feed.vercel.app/', 'http://localhost:5174'];
-
-const corsOptions = {
-    origin: (origin, callback) => {
-        if (allowedOrigins.includes(origin) || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: 'GET,POST,PUT,DELETE',
-    credentials: true,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 
 // Import routes
