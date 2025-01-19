@@ -54,7 +54,6 @@ exports.fetchArticle = async (url) => {
     const reader = new Readability(dom.window.document);
     const parsedArticle = reader.parse();
 
-    console.log("Article is parsed.");
     const hasMediaTags = /<img|<figure|<source/.test(parsedArticle.content);
     const image = !hasMediaTags ? await fetchImageFromOriginalArticle(url) : null;
 

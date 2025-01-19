@@ -3,7 +3,7 @@ require('dotenv').config();
 const cors = require('cors');
 const rateLimiter = require('./src/middlewares/rateLimiter')
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(express.json());
 
